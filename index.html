@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <!--<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>-->
+
+    <script>
+
+        //********************* Sprint 3 My Solutions *********************
+
+        const painter = {
+            favoriteArtist: "Claude Monet",
+            medium: "watercolor",
+            paintings: 10,
+            paint() {
+                this.paintings++;
+            }
+        }
+        painter.paint();
+        // console.log(painter.paintings);
+
+        class Student {
+            name = 'Jessica';
+            grade = 'B';
+            year = 3;
+            test() {
+                return `${this.name} received a ${this.grade} on the test!`
+            }
+        }
+
+        const jessica = new Student();
+        // console.log(jessica.test());
+
+        // The call() method simulates making a call, incrementing the call count each time it's invoked
+        // To invoke first is import to make it work
+
+        class Phone {
+            owner = 'steven';
+            model = 'XM50';
+            calls = 9;
+            call() {
+                this.calls++;
+                return `I am making a call to ${this.owner} from my ${this.model} phone`;
+            }
+        }
+        const bluberry = new Phone();
+        // console.log(bluberry.call());
+        // console.log(bluberry);
+
+        // Represents a multiplayer video game with properties such as genre, rating, and the current number of players. 
+        // The play(num) method allows players to join the game, with a maximum limit of 10 players. 
+
+        class VideoGame {
+            genre = 'Multiplayer RPG';
+            rating = 4.5;
+            players = 2;
+
+            play(num) {
+                const totalPlayers = this.players + num;
+                if (totalPlayers <= 10) {
+                    this.players = totalPlayers;
+                    return `There are ${num} players joining the game, bringing the total number of players to ${this.players}`;
+                } else {
+                    const playersToAdd = 10 - this.players;
+                    this.players = 10;
+                    return `Only ${playersToAdd} players can join. The party is now full with ${this.players} players.`;
+                }
+            }
+        }
+
+        const bionix = new VideoGame();
+        // console.log(bionix.play(5));
+        // console.log(bionix.play(7));
+
+        // GUIDED PROJECT
+        // #region
+
+        // 👉 1- Intro to classes
+        class Player {
+            constructor(desiredNick) {
+                this.nick = desiredNick
+                this.points = 0
+            }
+            greet() {
+                console.log(`Hello, I am ${this.nick}`)
+            }
+            play() {
+                let randomNum = Math.floor(Math.random() * 10)
+                this.points += randomNum
+                return `I gained ${randomNum} points and I am at ${this.points}`
+            }
+        }
+        const foo = new Player('Foo')
+        const fizz = new Player('Fizz')
+
+        // 👉 2- Classes as containers of state (and the means to change it)
+        class VolumeRocker {
+            constructor() {
+                this.state = ''
+            }
+            print() {
+                console.log(`${this.state} (${this.state.length})`)
+            }
+            up() {
+                this.state += '▮'
+                this.print()
+            }
+            down() {
+                this.state = this.state.slice(0, this.state.length - 1)
+                this.print()
+            }
+        }
+        const rocker = new VolumeRocker
+
+        // 👉 3- Classes with more advanced logic
+        class TrafficLight {
+            constructor(address) {
+                this.address = address
+                this.colors = ['red', 'green', 'orange']
+                this.color = this.colors[0]
+            }
+            print() {
+                console.log(`the color is ${this.color}`)
+            }
+            change() {
+                let currentIndex = this.colors.indexOf(this.color)
+                let nextIndex = currentIndex + 1
+                if (nextIndex > 2) nextIndex = 0
+                this.color = this.colors[nextIndex]
+                this.print()
+            }
+        }
+
+        const singSong = (str) => console.log(`...singing ${str}`);
+        //singSong('ize')
+        const light = new TrafficLight('NYC')
+
+        //#endregion
+
+        //********************* MODULE 2 ( Adnavced Functions ) *********************
+
+        // arguments => functions that handle a variable number of arguments
+        // #region
+
+        function tagRace(...params) {
+            console.log(params[params.length - 1]);
+        }
+
+        // tagRace(3, 7, 8, 'cat', 7);
+
+        function logData(...arg) {
+            console.log(arg.join(' '));
+        }
+
+        // logData('hello', 'how', 'are', 'you', 'doing?');
+
+        function prefixer(prefix, ...arg) {
+            let returnArr = [];
+            for (i = 0; i < arg.length; i++) {
+                returnArr.push(prefix + arg[i]);
+            }
+            return returnArr;
+        }
+
+        // console.log(prefixer('dr', 'how', 'are', 'you'))
+
+        // finding minimum value of an arg. 
+
+        function min() {
+            let min = arguments[0];
+
+            for (let i = 1; i < arguments.length; i++) {
+                if (arguments[i] < min) {
+                    min = arguments[i];
+                }
+            }
+
+            return min;
+        }
+
+        // console.log(min(3, 2, 7));
+
+        //#endregion
+
+        // set default arguments 
+        // #region
+
+        function multiply(num1 = 1, num2 = 1) {
+            return num1 * num2;
+        }
+        // console.log(multiply(7));
+
+
+
+        function append(str, arr = []) {
+            arr.push(str);
+            return arr;
+        }
+        // console.log(append('the', ['kis', 'kutya']));
+
+
+
+        function greet(name, greet = 'Hello') {
+            return `${greet} ${name}!`
+        }
+        // console.log(greet('Ted'));
+        // console.log(greet('Ted', 'Good morning'));
+
+
+
+        function toArray(x = 1, y = 1) {
+            return [x, y];
+        }
+
+        // console.log(toArray(2));
+
+        //#endregion
+
+        //.forEach => performs a specific operation on each element in an array
+        // #region 
+
+        const numbersArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        let count = 0;
+        const evenArr = [];
+        numbersArray.forEach(num => {
+            if (num % 2 === 0) count++, evenArr.push(num);
+        })
+
+        // console.log(`There are ${count} even numbers in the array`);
+        // console.log("The even numbers are: ", evenArr);
+
+        // ----
+
+        const strings = ['hello', 'world', 'javascript', 'coding'];
+        const uppercaseStrings = [];
+
+        strings.forEach(str => {
+            let upStr = str.toUpperCase();
+            uppercaseStrings.push(upStr);
+        })
+
+        // console.log(uppercaseStrings);
+
+        // ----
+
+        const duplicateNumbers = [1, 2, 3, 4, 5, 1, 2, 3, 6, 7, 8, 9, 5];
+        const uniqueNumbers = [];
+
+        duplicateNumbers.forEach(n => {
+            if (!uniqueNumbers.includes(n)) uniqueNumbers.push(n);
+        })
+
+        // console.log(uniqueNumbers);
+
+        // ----
+
+        const numbersToSum = [1, 2, 3, 4, 5];
+        let sum = 0;
+        numbersToSum.forEach(n => {
+            sum += n;
+        })
+
+        // console.log(sum);
+
+        //#endregion
+
+        // .filter => method filter out elements meeting condition in an array
+        // #region
+
+        const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+        const isEven = numbers.filter(n => n % 2 === 0);
+        // console.log(isEven);
+
+        const isOdd = numbers.filter(n => n % 2 === 1);
+        // console.log(isOdd);
+
+        // ----
+
+        const stringek = ['hello', 'world', 'javascript', 'coding'];
+        const newStr = stringek.filter(s => s.length < 6);
+        // console.log(newStr);
+
+        // ----
+
+        const largeNumbers = [11, 55, 1001, 356, 97, 88, 244, 975, 42];
+        const largerN = largeNumbers.filter(n => n > 100);
+        // console.log(largerN);
+
+        //#endregion
+
+        // .map method => transform each element based on condition in an array
+        // #region 
+
+        let numbers2 = [20, 40, 60, 80, 100]
+
+        const numDub = numbers2.map(n => n * 2);
+        // console.log(numDub);
+
+        const numHalf = numbers2.map(n => n / 2);
+        // console.log(numHalf);
+
+        //----
+
+        const strings2 = ['apple', 'chocolate', 'cherry', 'pecan']
+        const newArr = strings2.map(n => n.charAt(0));
+        // console.log(newArr);
+
+        const lastChar = strings2.map(n => n.slice(-1)); // n.slice(-2) last two and so on
+        // console.log(lastChar);
+
+        //#endregion
+
+        // GUIDED PROJECT
+
+        // #region
+        // 👉 1 - looping to achieve something
+        // [1, 2, 3, 4, 5] --> [1, 4, 9, 16, 25]
+
+        let squareNumsA = (nums) => {
+            let result = []
+            for (let idx in nums) {
+                if (nums[idx] === 13) {
+                    return '13 freaks me out!';
+                }
+                result.push(nums[idx] ** 2);
+            }
+            return result;
+        }
+
+        // let squareNumsA = (nums) => {
+        //     if (nums.includes(13)) return '13 freaks me out!';
+        //     return nums.map(num => num ** 2);
+        // }
+        // simpler version
+
+        // 👉 2 - looping with forEach
+        let squareNumsB = nums => {
+            let result = []
+            nums.forEach(num => {
+                result.push(num ** 2);
+            })
+            return result;
+        }
+
+        // const squareNumsB = nums => nums.map(num => num ** 2);
+        // simplest version I found.
+
+        // 👉 3 - obtaining a new array with map
+        let squareNumsC = nums => {
+            let squared = nums.map(num => {
+                return num ** 2;
+            })
+            return squared;
+        }
+
+        // 👉 4 - filtering elements with filter
+        // [{ topic: 'JS' }, { topic: 'React' }, { topic: 'Node' }]
+        let findJsArticles = articles => {
+            let filtered = articles.filter(article => {
+                return article.topic === 'JS';
+            })
+            return filtered;
+        }
+        // const findJsArticles = articles => articles.filter(article => article.topic === 'JS');
+        // simpler but same
+
+        // 👉 5 - working with any number of arguments using spread operator
+        let concatWords = (...words) => {
+            return words.join(' ');
+        }
+
+        //#endregion
+
+        //********************* MODULE 3 ( JS in the wild ) *********************
+
+        // destructing objects
+        // #region
+
+        const person = {
+            name: 'Alice',
+            age: 30,
+            city: 'New York'
+        };
+        const { name, age, city } = person; // must use properties for variables name with this solution
+
+        // console.log(name, age, city);
+
+        const student = {
+            id: 123,
+            firstName: 'John',
+            lastName: 'Doe'
+        };
+        const a = student.id;
+        const b = student.firstName;
+        const c = student.lastName;
+        // console.log(a, b, c);
+
+        const movie = {
+            title: 'Inception',
+            director: 'Christopher Nolan',
+            releaseYear: 2010,
+            first_actor: {
+                name: 'Leonardo DiCaprio',
+                character: 'Cobb'
+            },
+            second_actor: {
+                name: 'Joseph Gordon-Levitt',
+                character: 'Arthur'
+            },
+        };
+        const movieTitle = movie.title;
+        const movieDirector = movie.director;
+        const movieReleaseYear = movie.releaseYear;
+        const leadActor = movie.first_actor.name;
+        const leadCharacter = movie.first_actor;
+
+        // Logs + Another soltuion
+
+        // const { title: movieTitle } = movie;
+        // const { director: movieDirector } = movie;
+        // const { releaseYear: movieReleaseYear } = movie;
+        // const { first_actor: { name: leadActor } } = movie;
+        // const { first_actor: leadCharacter } = movie;
+
+        // LOOGS
+
+        // console.log(movieTitle)
+        // console.log(movieDirector)
+        // console.log(movieReleaseYear)
+        // console.log(leadActor)
+        // console.log(leadCharacter)
+
+        const data = {
+            user: {
+                name: 'Bob',
+                age: 25,
+                location: {
+                    city: 'San Francisco',
+                    state: 'California'
+                }
+            },
+            job: {
+                title: 'Software Engineer',
+                company: 'Tech Corp'
+            }
+        }
+        const { company } = data.job;
+        const { state } = data.user.location;
+        const { title } = data.job;
+
+        // LOG + Another solution
+
+        // console.log(company);
+        // console.log(state);
+        // console.log(title);
+
+        // const a1 = data.job.company;
+        // const b1 = data.user.location.state;
+        // const c1 = data.job.title;
+
+        // console.log(a1);
+        // console.log(b1);
+        // console.log(c1);
+
+        //#endregion
+
+        // destructing arrays
+        // #region
+
+        const names = ["John", "Mary", "Bob"]
+        const one = names[0];
+        const two = names[1];
+
+        const [first, second] = names;
+
+        // console.log(first, second);
+        // console.log(one, two);
+
+        const nums = [2, 5, 6];
+        const [x, y] = nums;
+
+        const z = nums[0];
+        const w = nums[1];
+
+        // console.log(z, w);
+        // console.log(x, y);
+
+        const numberss = [1, 2, 3, 4];
+        const [firstNum, ...rest] = numberss;
+        const newNums = [...rest, firstNum];
+
+        // same solution
+        // const firstNum = numberss[0];
+        // const rest = numberss.slice(1);
+        // const newNums = [...rest, firstNum];
+
+        // console.log(rest);
+
+        let a2 = 'hello';
+        let b2 = 'world';
+        [a2, b2] = [b2, a2]; // simply swapped values, they are reassigned and the original values are kept
+
+        // console.log(a2, b2);
+
+        // For better understanding of destructuring assignment (used above)
+        //#region
+
+        let r = 4;
+        let k = 6;
+        let o = 8;
+
+        //console.log(r, k, o);
+
+        [r, k, o] = [k, o, r];
+
+        //console.log(r, k, o);
+        //#endregion
+
+        const ints = [1, 2, 3, 4, 5];
+        const [firstInt, ...restOfInts] = ints;
+
+        // console.log(firstInt, restOfInts);
+
+        //#endregion
+
+        // Destructuring from return values of functions
+        // #region
+
+        function getPerson() {
+            return { name1: "Bla", age1: 34 }
+        }
+        // const person1 = getPerson();
+        // const n1 = person1.name1;
+        // const a1 = person1.age1;
+        // console.log(n1, a1);      => this solution is good for getting new customizable var names
+
+        const { name1, age1 } = getPerson();
+        // console.log(name1, age1);
+
+        function getFullName() {
+            return { firstName: 'john', lastName: 'doe' }
+        }
+        const { firstName, lastName } = getFullName();
+        // console.log(firstName, lastName);
+
+        function getRecipeIngredients(recipe) {
+            return {
+                name2: "Chocolate Chip Cookies",
+                ingredients: ["flour", "sugar", "chocolate chips", "butter", "eggs"]
+            };
+        }
+
+        const { name2, ingredients } = getRecipeIngredients();
+        // console.log(name2, ingredients);
+
+        //#endregion
+
+        // creating shallow copies of arrays and objects 
+        // Note: These copies are called "shallow" because if the array/object contains arrays or objects, you are not creating copies of those.
+        // #region 
+
+        const originalFruits = ['apple', ['orange', 'lemon']];
+        const copyFruits = [...originalFruits];
+        copyFruits[1] = ['pineapple'];     // => like this the result is ['apple', ['pineapple']]
+
+        //copyFruits[1][0] = 'pineapple'; // => like this the result is ['apple', ['pineapple', 'lemon']] and the original is changed
+        // console.log(originalFruits);
+        // console.log(copyFruits);
+
+        const originalMovies = ['The Godfather', 'The Shawshank Redemption', 'The Dark Knight'];
+        const copyMovies = [...originalMovies];
+        copyMovies[0] = 'The Godfather Part II';
+        // console.log(originalMovies);
+        // console.log(copyMovies);
+
+        // the method behaves differently on objects, since it modifies the original object
+        // deepcloning does the job, need reference in a browser environment !referenced at the top!
+
+        const originalNums = { a: { b: 2 } };
+        const copyNums = { ...originalNums };
+        copyNums.a.b = 3;
+        // const copyNums = _.cloneDeep(originalNums);
+        // originalNums.a.b = 3;                       => deepcloning here!
+
+        // console.log(originalNums);
+        // console.log(copyNums);
+
+        const originalInfo = { name: 'John', age: 30, address: { street: '123 Main St', city: 'New York' } };
+        const copyInfo = { ...originalInfo };
+        copyInfo.address.city = 'Los Angeles';
+        // console.log(originalInfo);
+        // console.log(copyInfo);
+
+        const originalInts = { a: { b: 7 }, c: 8, d: 9 };
+        const copyInts = { ...originalInts };
+        copyInts.a.b = 3;
+        // console.log(originalInts);
+        // console.log(copyInts);
+
+        //#endregion
+
+        // Using the ternary operator => short way of an if statement with only two possible outcomes.
+        // #region
+
+        function greeting(name) {
+            return name ? `Hello, ${name}!` : "Hello, stranger!";
+        }
+        //console.log(greeting('Robert'));
+
+        function canDrink(age) {
+            return age > 20 ? "You can drink alcohol!" : "You cannot drink alcohol.";
+        }
+        // console.log(canDrink(30));
+
+        function isEven1(num) {
+            return num % 2 === 0 ? "Even" : "Odd";
+        }
+        // console.log(isEven1(657));
+
+        // nested tenary operator
+        function getDiscount(isMember, total) {
+            return typeof total === 'number' ? (isMember ? total - 10 : total) : "Please use a number input";
+
+        }
+        // console.log(getDiscount(false, 'sdg'));
+
+        //#endregion
+
+        // out of topic (it was a debug task)
+        // plaindrome checker
+        // #region
+        function isPalindrome(str) {
+            let reversedStr = "";
+            for (let i = str.length - 1; i >= 0; i--) {
+                reversedStr += str[i];
+            }
+            return reversedStr === str;
+        }
+
+        //console.log(isPalindrome('Tohot'));
+        //#endregion
+
+        // Asynchronous code using timeouts
+        // setTimeout
+        // #region
+
+        function printMessage(message) {
+            setTimeout(function () {
+                console.log(message);
+            }, 500);
+        }
+
+        function delayedSum(num1, num2) {
+            setTimeout(function () {
+                const sum = num1 + num2;
+                console.log(sum);
+            }, 1000);
+        }
+
+        function printNumbers() {
+            setTimeout(function () {
+                for (let i = 1; i <= 5; i++) {
+                    setTimeout(() => {
+                        console.log(i);
+                    }, i * 300);
+                }
+            }, 1500);
+        }
+
+        function countdown(number) {
+            let counter = number;
+
+            setTimeout(function () {
+                const intervalId = setInterval(() => {
+                    console.log(counter);
+
+                    if (counter === 0) {
+                        clearInterval(intervalId);
+                    } else {
+                        counter--;
+                    }
+                }, 300);
+            }, 3200);
+        }
+
+        // delayedSum(5, 6);
+        // printMessage("Hello World!");
+        // printNumbers();
+        // countdown(10);
+
+        //#endregion
+
+        // Asynchronous code using browser events
+        // #region
+
+        // when clicked logs `The answer to life is 42.`
+
+        window.onclick = () => console.log(`The answer to life is 42.`);
+
+        // when clicked it counts clicks and logs `Button clicked ${count} times.`; 
+
+        window.onclick = () => {
+            count++;
+            console.log(`Button clicked ${count} times.`);
+        }
+
+        // other solution
+
+        function clickCounter() {
+            let count = 0;
+
+            // Event listener for click event
+            document.addEventListener('click', () => {
+                count++; // Increment the counter
+                console.log(`Clicked! Current count: ${count}`);
+            });
+        }
+
+        // an arrow function with an inline implementation 
+        // to toggle the background color between red and green.
+
+        window.onclick = () => {
+            let currentColor = 'red';
+
+            if (currentColor === 'red') {
+                console.log('Background is red');
+                currentColor = 'green';
+            } else {
+                console.log('Background is green');
+                currentColor = 'red';
+            }
+        }
+
+        // Another soultion
+
+        // function toggleBackground() {
+        //     const currentColor = 'red';
+
+        //     if (currentColor === 'red') {
+        //         console.log('Background is red');
+        //         currentColor = 'green';
+        //     } else {
+        //         console.log('Background is green');
+        //         currentColor = 'red';
+        //     }
+        // }
+
+        // windoe.onclick = toggleBackground;
+
+        // prints a random color to the console every time the user clicks
+        window.onclick = () => {
+            const randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+            console.log(randomColor);
+        }
+
+        // every time you click anywhere on the webpage after it has loaded, 
+        // it will log the number of clicks to the console, starting from 1
+        window.onload = () => {
+            let counter = 0;
+            window.onclick = () => {
+                console.log(`Click count: ${++counter}`);
+            };
+        };
+
+        //#endregion
+
+        // Guided project
+        // #region
+
+        // 👉 1 - destructuring
+        let [first3, second3, third] = [1, 2, 3]
+        let { a3, b3 } = { a3: 1, b3: 2 }
+
+        let users = [
+            { fname: 'Jane', lname: 'King' },
+            { fname: 'John', lname: 'Smith' },
+            { fname: 'Edd', lname: 'Murphy' },
+        ]
+
+        const [u1, u2, u3] = users;
+        const [user1, ...restOfUsers] = users;
+        const { fname, lname } = u1;
+        const { fname: fname2, lname: lname2 } = u2;
+        const { fname: fname3, lname: lname3 } = u3;
+        // console.log(users);
+        // console.log(...restOfUsers, fname, lname);
+        // console.log(fname2, lname2);
+        // console.log(fname3, lname3);
+
+        // 👉 2 - other places we can use destructuring
+        function submit({ fname, lname }) {
+            console.log(fname, lname);
+        }
+
+        // submit(u2);
+
+        function checkCredentials({ username, password }) {
+            // we can use username and password directly
+        }
+
+        // 👉 3 - ternaries
+        let conclusion
+        if (typeof NaN === 'number') {
+            conclusion = 'JavaScript is weird!';
+        } else {
+            conclusion = 'faith in humanity restored.';
+        }
+
+        // condition always true, second part is not possible to get without changing condition
+
+        let newConclusion = (typeof NaN === 'number')
+            ? 'JavaScript is weird!'
+            : 'faith in humanity restored.'
+        // 👉 4 - ternaries for return values
+
+        // strange examples
+
+        const followersInfo1 = count => {
+            //   if (count === 1) {
+            //     return 'You have 1 follower'
+            //   }
+            return `You have ${count} followers`;
+        }
+
+        const followersInfo2 = count => {
+            return /*count === 1 ? 'You have 1 follower' :*/ `you have ${count} followers`;
+        }
+
+        // ok, this is cool
+
+        // 👉 5 - ternaries for DRYer code
+        const followersInfo3 = count => {
+            return `You have ${count} follower${count === 1 ? '' : 's'}`;
+        }
+
+        // 👉 6 - making shallow copies of objects
+        // [{ id: 1, ended: "Y" }, { id: 2, ended: "N" }, { id: 3, ended: "N" }, { id: 4, ended: "Y" }]
+        // [{ id: 1, ended: true }, { id: 2, ended: false }, { id: 3, ended: false }, { id: 4, ended: true }]
+        const processTrials = trials => {
+            return trials.map(trial => {
+                if (trial.ended === 'Y') {
+                    trial.ended = true;
+                } else {
+                    trial.ended = false;
+                }
+                return trial;
+            })
+        }
+        const processTrialsImproved = trials => {
+            return trials.map(trial => {
+                return { ...trial, ended: trial.ended === 'Y' /*? true : false */ } // it is even more simple
+            })
+        }
+
+        // 👉 7 - asynchronous code
+        window.onclick = function () {
+            console.log('you clicked the window')
+        }
+
+        //#endregion
+
+        function primes(n) {
+            //     let A be an array of Boolean values, indexed by integers 2 to n,
+            let numbers = Array(n);
+            //     initially all set to true.
+            numbers.fill(true);
+            numbers[0] = false;
+            numbers[1] = false;
+
+            //     for i = 2, 3, 4, ..., not exceeding √n do
+            for (let i = 3; i < Math.sqrt(n); i += 2) {
+                //         if A[i] is true
+                if (numbers[i] === true) {
+                    //             for j = i2, i2+i, i2+2i, i2+3i, ..., not exceeding n do
+                    for (let j = i * 2; j < n; j += i) {
+                        //                 set A[j] := false
+                        numbers[j] = false;
+                    }
+                }
+            }
+
+            //     return all i such that A[i] is true.
+            let primes = [2];
+            for (i = 3; i < n; i += 2) {
+                if (numbers[i]) {
+                    primes.push(i);
+                }
+            }
+
+            return primes;
+        }
+
+        function sieveOfEratosthenes(n) {
+            const primes = new Array(n).fill(true); // Create a list, filled with true
+            primes[0] = false
+            primes[1] = false; // 0 and 1 are not prime numbers
+            for (let p = 2; p * p <= n; p++) {
+                console.log("p", p);
+                // If prime[p] is not changed, then it is a prime
+                if (primes[p] === true) {
+                    // Update all multiples of p
+                    for (let i = p * p; i <= n; i += p) {
+                        console.log("primes", primes[i]);
+                        primes[i] = false;
+                    }
+                }
+            }
+            // Collecting all prime numbers
+            const primeNumbers = [];
+            console.log("primes numbers", primeNumbers);
+            for (let p = 2; p <= n; p++) {
+                if (primes[p]) {
+                    console.log("primes p", primes[p]);
+                    primeNumbers.push(p);
+                }
+            }
+            return primeNumbers;
+        }
+
+        sieveOfEratosthenes()
+    
+
+        // solution for a nested loop!!!!
+
+        function customConcat(arr) {
+            let result = '';
+            let maxLength = 0;
+
+            // Find the maximum length among the strings
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i].length > maxLength) {
+                    maxLength = arr[i].length;
+                }
+            }
+
+            // Iterate through each character index up to the maximum length
+            for (let i = 0; i < maxLength; i++) {
+                // Concatenate character from each string if it exists
+
+                for (let j = 0; j < arr.length; j++) {
+                    if (arr[j][i] !== undefined) {
+                        result += arr[j][i];
+                        console.log("i:", i, "j:", j, "Character:", arr[j][i]);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+
+        const input = ["helo", "hor", "hugik"];
+        const output = customConcat(input);
+        console.log(output); // Output: "hhheoulrgoik"
+
+
+
+
+    </script>
+    <h1>TITLE</h1>
+    <p>Paragraph text</p>
+    <div>Div text</div>
+
+</body>
+
+</html>
